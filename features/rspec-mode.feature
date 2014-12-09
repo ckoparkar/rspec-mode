@@ -16,7 +16,7 @@ Feature: Defer a test
     And I press "C-c C-r td"
     Then I should see "xit"
 
-  Scenario: Deferring a test
+  Scenario: Undeferring a test
     When I insert:
     """
     describe '#random_string' do
