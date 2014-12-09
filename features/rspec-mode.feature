@@ -29,6 +29,7 @@ Feature: Defer a test
     And I go to the front of the word "expect"
     And I press "C-c C-r td"
     Then I should see "xit"
+    And the cursor should be before "expect"
 
   Scenario: Undeferring a test
     When I insert:
@@ -43,6 +44,7 @@ Feature: Defer a test
     And I go to the front of the word "expect"
     And I press "C-c C-r td"
     Then I should not see "xit"
+    And the cursor should be before "expect"
 
   Scenario: Deferring a double quoted test
     When I insert:
@@ -57,6 +59,7 @@ Feature: Defer a test
     And I go to the front of the word "expect"
     And I press "C-c C-r td"
     Then I should see "xit"
+    And the cursor should be before "expect"
 
   Scenario: Undeferring a double quoted test
     When I insert:
@@ -71,3 +74,4 @@ Feature: Defer a test
     And I go to the front of the word "expect"
     And I press "C-c C-r td"
     Then I should see "it"
+    And the cursor should be before "expect"

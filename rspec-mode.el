@@ -3,10 +3,11 @@
 
 (defun rspec-toggle-deferred ()
   (interactive)
-  (rspec-goto-current-test)
-  (if (looking-back "x")
-	  (delete-char -1)
-	(insert "x"))
+  (save-excursion
+	(rspec-goto-current-test)
+	(if (looking-back "x")
+		(delete-char -1)
+	  (insert "x")))
   )
 
 (defvar rspec-mode-map (make-sparse-keymap)
