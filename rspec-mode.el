@@ -9,6 +9,14 @@
 	(insert "x"))
   )
 
-(global-set-key (kbd "C-c C-r td") 'rspec-toggle-deferred)
+(defvar rspec-mode-map (make-sparse-keymap)
+  "Rspec mode keymap")
+
+(define-key rspec-mode-map (kbd "C-c C-r td") 'rspec-toggle-deferred)
+
+(define-minor-mode rspec-mode
+  "Rspec mode"
+  nil
+  " Rspec")
 
 (provide 'rspec-mode)
