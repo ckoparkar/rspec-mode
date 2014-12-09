@@ -1,5 +1,5 @@
 (defun rspec-goto-current-test ()
-  (search-backward-regexp "x?it[^ ]*.*do"))
+  (search-backward-regexp "x?it +[\"'].*[\"']"))
 
 (defun rspec-toggle-deferred ()
   (interactive)
