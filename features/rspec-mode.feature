@@ -3,7 +3,7 @@ Feature: Defer a test
   As a rspec tester
   I want to just press key please
 
-  Scenario: Deferring a test
+  Scenario: Attempting to defer a test outside rspec-mode
     When I insert:
     """
     describe '#random_string' do
