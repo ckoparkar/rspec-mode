@@ -10,10 +10,16 @@
 	  (insert "x")))
   )
 
+(defvar rspec-compile-command "rspec")
+
+(defun rspec-insert-into-test-buffer (&rest ignore)
+  (switch-to-buffer-other-window "*rspec-test*")
+  (insert-buffer "*compilation*"))
+
 (defun rspec-run-all-tests ()
   (interactive)
-  (switch-to-buffer-other-window "*rspec-test*")
-  (call-process "rspec" nil "*rspec-test*" t)
+  (compile rspec-compile-command t)
+  (add-hook 'compilation-finish-functions 'rspec-insert-into-test-buffer)
   )
 
 (defvar rspec-mode-map (make-sparse-keymap)
