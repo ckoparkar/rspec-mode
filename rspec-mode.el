@@ -1,3 +1,8 @@
+(defvar rspec-compile-command "rspec")
+
+(defvar rspec-mode-map (make-sparse-keymap)
+  "Rspec mode keymap")
+
 (defun rspec-goto-current-test ()
   (search-backward-regexp "x?it +[\"'].*[\"']"))
 
@@ -10,20 +15,18 @@
 	  (insert "x")))
   )
 
-(defvar rspec-compile-command "rspec")
-
 (defun rspec-insert-into-test-buffer (&rest ignore)
   (switch-to-buffer-other-window "*rspec-test*")
-  (insert-buffer "*compilation*"))
+  (erase-buffer)
+  (insert-buffer "*compilation*")
+  (kill-buffer "*compilation*")
+  )
 
 (defun rspec-run-all-tests ()
   (interactive)
   (compile rspec-compile-command t)
   (add-hook 'compilation-finish-functions 'rspec-insert-into-test-buffer)
   )
-
-(defvar rspec-mode-map (make-sparse-keymap)
-  "Rspec mode keymap")
 
 (define-key rspec-mode-map (kbd "C-c C-r td") 'rspec-toggle-deferred)
 (define-key rspec-mode-map (kbd "C-c C-r ra") 'rspec-run-all-tests)
