@@ -60,4 +60,5 @@
 (When "^I have passing tests$"
   (lambda ()
 	(setq rspec-compile-command "./rspec")
+	(setq rspec-spec-directory "./rspec")
     ))
