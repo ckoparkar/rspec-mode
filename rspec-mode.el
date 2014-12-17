@@ -13,7 +13,8 @@
    (t (rspec--spec-directory (f-parent dir)))
    ))
 
-(defvar rspec-spec-directory (rspec--spec-directory buffer-file-name))
+(defvar rspec-spec-directory nil)
+(setq rspec-spec-directory (rspec--spec-directory buffer-file-name))
 
 (defun rspec-goto-current-test ()
   (search-backward-regexp "x?it +[\"'].*[\"']"))
@@ -36,6 +37,8 @@
 
 (defun rspec-run-all-tests ()
   (interactive)
+  (when (equal rspec-spec-directory nil)
+   (setq rspec-spec-directory (rspec--spec-directory buffer-file-name)))
   (let ((root-dir (f-parent rspec-spec-directory)))
 	(compile (concat "cd " root-dir " && " rspec-compile-command " spec"))
 	(add-hook 'compilation-finish-functions 'rspec-insert-into-test-buffer)
