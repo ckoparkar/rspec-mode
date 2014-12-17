@@ -41,14 +41,21 @@
 (defun rspec-goto-root-directory ()
   (concat "cd" " " (rspec-root-directory)))
 
+(defun rspec-run (cmd)
+  (compile cmd)
+  (add-hook 'compilation-finish-functions 'rspec-insert-into-test-buffer))
+
 (defun rspec-run-all-tests ()
   (interactive)
-  (compile (concat (rspec-goto-root-directory) " && " rspec-compile-command " spec"))
-  (add-hook 'compilation-finish-functions 'rspec-insert-into-test-buffer)
-  )
+  (rspec-run (concat (rspec-goto-root-directory) " && " rspec-compile-command " spec")))
+
+(defun rspec-run-this-test ()
+  (interactive)
+  (rspec-run (concat (rspec-goto-root-directory) " && " rspec-compile-command " " buffer-file-name)))
 
 (define-key rspec-mode-map (kbd "C-c C-r td") 'rspec-toggle-deferred)
 (define-key rspec-mode-map (kbd "C-c C-r ra") 'rspec-run-all-tests)
+(define-key rspec-mode-map (kbd "C-c C-r rt") 'rspec-run-this-test)
 
 (define-minor-mode rspec-mode
   "Rspec mode"
