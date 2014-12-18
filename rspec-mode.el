@@ -19,6 +19,14 @@
 (defun rspec-root-directory ()
   (f-parent (rspec-spec-directory)))
 
+(defun rspec-gemfile-exists-p ()
+  (f-files (rspec-root-directory) (lambda (file) (equal (f-filename file) "Gemfile"))))
+
+(defun rspec-compile-command ()
+  (if (rspec-gemfile-exists-p)
+	  (concat "bundle exec " rspec-compile-command)
+	rspec-compile-command))
+
 (defun rspec-goto-current-test ()
   (search-backward-regexp "x?it +[\"'].*[\"']"))
 
@@ -47,11 +55,11 @@
 
 (defun rspec-run-all-tests ()
   (interactive)
-  (rspec-run (concat (rspec-goto-root-directory) " && " rspec-compile-command " spec")))
+  (rspec-run (concat (rspec-goto-root-directory) " && " (rspec-compile-command) " spec")))
 
 (defun rspec-run-this-test ()
   (interactive)
-  (rspec-run (concat (rspec-goto-root-directory) " && " rspec-compile-command " " buffer-file-name)))
+  (rspec-run (concat (rspec-goto-root-directory) " && " (rspec-compile-command) " " buffer-file-name)))
 
 (define-key rspec-mode-map (kbd "C-c C-r td") 'rspec-toggle-deferred)
 (define-key rspec-mode-map (kbd "C-c C-r ra") 'rspec-run-all-tests)

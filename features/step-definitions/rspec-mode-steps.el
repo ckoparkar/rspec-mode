@@ -63,3 +63,25 @@
 	(defun rspec-spec-directory () "./spec")
 	(defun rspec-root-directory () ".")
     ))
+
+(And "^I have a Gemfile$"
+  (lambda ()
+	(defun rspec-gemfile-exists-p () t)
+    ))
+
+(Then "^I should run tests with \"\\([^\"]+\\)\"$"
+	  (lambda (expected)
+		(let ((actual (rspec-compile-command))
+			  (message "Expected '%s' to be part of '%s', but was not."))
+		  (cl-assert (s-contains? expected actual) nil message expected actual))))
+
+(And "^I dont have a Gemfile$"
+	 (lambda ()
+	   (defun rspec-gemfile-exists-p () nil)
+	   ))
+
+(Then "^I should not run tests with \"\\([^\"]+\\)\"$"
+	  (lambda (expected)
+		(let ((actual (rspec-compile-command))
+			  (message "Expected '%s' to be part of '%s', but was not."))
+		  (cl-assert (not (s-contains? expected actual)) nil message expected actual))))
