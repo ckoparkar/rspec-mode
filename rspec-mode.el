@@ -1,7 +1,14 @@
+(require 'rvm)
+
 (defvar rspec-compile-command "rspec")
 
 (defvar rspec-mode-map (make-sparse-keymap)
   "Rspec mode keymap")
+
+(defcustom rspec-use-rvm nil
+  "When t, use RVM. Requires rvm.el."
+  :type 'boolean
+  :group 'rspec-mode)
 
 (defun rspec--spec-directory-p (dir)
   (string= (f-filename dir) "spec"))
@@ -50,6 +57,7 @@
   (concat "cd" " " (rspec-root-directory)))
 
 (defun rspec-run (cmd)
+  (when rspec-use-rvm (rvm-use-default))
   (compile cmd)
   (add-hook 'compilation-finish-functions 'rspec-insert-into-test-buffer))
 

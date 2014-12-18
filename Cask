@@ -4,3 +4,4 @@
 
 (depends-on "ecukes")
 (depends-on "espuds")
+(depends-on "rvm")
