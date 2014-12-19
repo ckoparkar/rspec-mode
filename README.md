@@ -1,4 +1,4 @@
-# rspec-mode.el
+# rspec-mode.el [![Build Status](https://travis-ci.org/cskksc/rspec-mode.svg)](https://travis-ci.org/cskksc/rspec-mode)
 rspec-mode is a minor mode for emacs to speed up development when writing tests with [rspec](http://rspec.info/)
 
 ## Keybindings
