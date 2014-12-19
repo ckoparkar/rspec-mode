@@ -1,6 +1,7 @@
 (require 'rvm)
+(require 'ansi-color)
 
-(defvar rspec-compile-command "rspec")
+(defvar rspec-compile-command "rspec -c -f d")
 
 (defvar rspec-mode-map (make-sparse-keymap)
   "Rspec mode keymap")
@@ -50,11 +51,17 @@
   (switch-to-buffer-other-window "*rspec-test*")
   (erase-buffer)
   (insert-buffer "*compilation*")
+  (rspec-colorize-test-buffer)
   (kill-buffer "*compilation*")
   )
 
 (defun rspec-goto-root-directory ()
   (concat "cd" " " (rspec-root-directory)))
+
+(defun rspec-colorize-test-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region (point-min) (point-max))
+  (toggle-read-only))
 
 (defun rspec-run (cmd)
   (when rspec-use-rvm (rvm-use-default))
