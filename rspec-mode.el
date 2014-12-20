@@ -76,10 +76,14 @@
   (interactive)
   (rspec-run  buffer-file-name))
 
+(defun rspec-run-all-from-folder ()
+  (interactive)
+  (rspec-run (f-parent buffer-file-name)))
 
 (define-key rspec-mode-map (kbd "C-c C-r td") 'rspec-toggle-deferred)
 (define-key rspec-mode-map (kbd "C-c C-r ra") 'rspec-run-all-tests)
 (define-key rspec-mode-map (kbd "C-c C-r rt") 'rspec-run-this-test)
+(define-key rspec-mode-map (kbd "C-c C-r rf") 'rspec-run-all-from-folder)
 
 (define-minor-mode rspec-mode
   "Rspec mode"

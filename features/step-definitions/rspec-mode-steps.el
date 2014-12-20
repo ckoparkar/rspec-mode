@@ -62,6 +62,7 @@
 	(setq rspec-compile-command "./rspec")
 	(defun rspec-spec-directory () "./spec")
 	(defun rspec-root-directory () ".")
+	(defun f-parent (arg) ".")
     ))
 
 (And "^I have a Gemfile$"
