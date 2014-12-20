@@ -63,18 +63,19 @@
   (ansi-color-apply-on-region (point-min) (point-max))
   (toggle-read-only))
 
-(defun rspec-run (cmd)
+(defun rspec-run (what)
   (when rspec-use-rvm (rvm-use-default))
-  (compile cmd)
+  (compile (concat (rspec-goto-root-directory) " && " (rspec-compile-command) " " what))
   (add-hook 'compilation-finish-functions 'rspec-insert-into-test-buffer))
 
 (defun rspec-run-all-tests ()
   (interactive)
-  (rspec-run (concat (rspec-goto-root-directory) " && " (rspec-compile-command) " spec")))
+  (rspec-run  " spec"))
 
 (defun rspec-run-this-test ()
   (interactive)
-  (rspec-run (concat (rspec-goto-root-directory) " && " (rspec-compile-command) " " buffer-file-name)))
+  (rspec-run  buffer-file-name))
+
 
 (define-key rspec-mode-map (kbd "C-c C-r td") 'rspec-toggle-deferred)
 (define-key rspec-mode-map (kbd "C-c C-r ra") 'rspec-run-all-tests)
