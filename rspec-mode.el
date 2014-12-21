@@ -42,7 +42,7 @@
 
 (defun rspec-current-tag ()
   (let ((spec (rspec-current-spec)))
-	(s-match "x?it +[\"'].*[\"'] *, *\\([[:word:]]*:\\) \\([[:word:]]*\\) *do" spec)
+	(s-match "x?it +[\"'].*[\"'] *, *:?\\([[:word:]]*\\):? *[=>:]*? *'?\\([[:word:]]*\\)'? *do" spec)
 	))
 
 (defun rspec-toggle-deferred ()
@@ -78,7 +78,7 @@
 			rspec-compile-command)
 		  " " what
 		  (when (and run-tag (rspec-current-tag))
-			(concat " --tag " (s-join ""(rest (rspec-current-tag)))))
+			(concat " --tag " (s-join ":" (rest (rspec-current-tag)))))
 		  ))
 
 (defun rspec-run (what &optional run-tag)
