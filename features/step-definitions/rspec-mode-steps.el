@@ -72,7 +72,9 @@
 
 (Then "^I should run tests with \"\\([^\"]+\\)\"$"
 	  (lambda (expected)
-		(let ((actual (rspec-run-command "spec"))
+		(let ((actual (if (s-contains? expected "--tag")
+						  (rspec-run-command "spec" t)
+						(rspec-run-command "spec")))
 			  (message "Expected '%s' to be part of '%s', but was not."))
 		  (cl-assert (s-contains? expected actual) nil message expected actual))))
 
@@ -83,6 +85,8 @@
 
 (Then "^I should not run tests with \"\\([^\"]+\\)\"$"
 	  (lambda (expected)
-		(let ((actual (rspec-run-command "spec"))
+		(let ((actual (if (s-contains? expected "--tag")
+						  (rspec-run-command "spec" t)
+						(rspec-run-command "spec")))
 			  (message "Expected '%s' to be part of '%s', but was not."))
 		  (cl-assert (not (s-contains? expected actual)) nil message expected actual))))

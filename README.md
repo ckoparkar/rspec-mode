@@ -8,6 +8,8 @@ All keybindings in cucumber-mode  start with `C-c C-r` followed by an actual sho
 * `td`: toggle-deferred will toggle 'pending' to the name of the current test in order to defer it.
 * `ra`: run all tests
 * `rt`: run the current open spec file
+* `rf`: run all tests from current folder
+* `rg`: run all tests which match current tag
 
 ## Development
 

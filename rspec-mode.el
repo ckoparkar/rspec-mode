@@ -33,6 +33,18 @@
 (defun rspec-goto-current-test ()
   (search-backward-regexp "x?it +[\"'].*[\"']"))
 
+(defun rspec-current-spec ()
+  (save-excursion
+	(and
+	 (rspec-goto-current-test)
+	 (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
+	))
+
+(defun rspec-current-tag ()
+  (let ((spec (rspec-current-spec)))
+	(s-match "x?it +[\"'].*[\"'] *, *\\([[:word:]]*:\\) \\([[:word:]]*\\) *do" spec)
+	))
+
 (defun rspec-toggle-deferred ()
   (interactive)
   (save-excursion
@@ -58,17 +70,20 @@
   (ansi-color-apply-on-region (point-min) (point-max))
   (toggle-read-only))
 
-(defun rspec-run-command (what)
+(defun rspec-run-command (what &optional run-tag)
   (concat (rspec-goto-root-directory)
 		  " && "
 		  (if (rspec-gemfile-exists-p)
 			  (concat "bundle exec " rspec-compile-command)
 			rspec-compile-command)
-		  " " what))
+		  " " what
+		  (when (and run-tag (rspec-current-tag))
+			(concat " --tag " (s-join ""(rest (rspec-current-tag)))))
+		  ))
 
-(defun rspec-run (what)
+(defun rspec-run (what &optional run-tag)
   (when rspec-use-rvm (rvm-use-default))
-  (compile (rspec-run-command what))
+  (compile (rspec-run-command what run-tag))
   (add-hook 'compilation-finish-functions 'rspec-insert-into-test-buffer))
 
 (defun rspec-run-all-tests ()
@@ -83,10 +98,15 @@
   (interactive)
   (rspec-run (f-parent buffer-file-name)))
 
+(defun rspec-run-with-current-tag ()
+  (interactive)
+  (rspec-run buffer-file-name t))
+
 (define-key rspec-mode-map (kbd "C-c C-r td") 'rspec-toggle-deferred)
 (define-key rspec-mode-map (kbd "C-c C-r ra") 'rspec-run-all-tests)
 (define-key rspec-mode-map (kbd "C-c C-r rt") 'rspec-run-this-test)
 (define-key rspec-mode-map (kbd "C-c C-r rf") 'rspec-run-all-from-folder)
+(define-key rspec-mode-map (kbd "C-c C-r rg") 'rspec-run-with-current-tag)
 
 (define-minor-mode rspec-mode
   "Rspec mode"
