@@ -35,11 +35,11 @@ Feature: Run a test with tag
     And I switch to buffer "*rspec-test*"
     Then I should see "failures"
 
-  Scenario: Run test with hash-rocket tag
+  Scenario: Run test with :symbol => :symbol hash-rocket
     When I insert:
     """
     describe '#random_string' do
-      it 'returns a random string of length n', :focus => true do
+      it 'returns a random string of length n', :focus => :true do
         expect(subject.send(:random_string, 10).length).to eq 10
       end
     end
