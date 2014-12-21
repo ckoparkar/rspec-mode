@@ -106,6 +106,10 @@
   (interactive)
   (rspec-run (f-parent buffer-file-name) t))
 
+(defun rspec-run-all-tests-with-tag ()
+  (interactive)
+  (rspec-run  "spec" t))
+
 (define-key rspec-mode-map (kbd "C-c C-r td") 'rspec-toggle-deferred)
 (define-key rspec-mode-map (kbd "C-c C-r ra") 'rspec-run-all-tests)
 (define-key rspec-mode-map (kbd "C-c C-r rt") 'rspec-run-this-test)
@@ -113,6 +117,7 @@
 
 (define-key rspec-mode-map (kbd "C-c C-r rg") 'rspec-run-this-test-with-tag)
 (define-key rspec-mode-map (kbd "C-c C-r fg") 'rspec-run-all-from-folder-with-tag)
+(define-key rspec-mode-map (kbd "C-c C-r ag") 'rspec-run-all-tests-with-tag)
 
 (define-minor-mode rspec-mode
   "Rspec mode"
