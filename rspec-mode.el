@@ -30,11 +30,6 @@
 (defun rspec-gemfile-exists-p ()
   (f-files (rspec-root-directory) (lambda (file) (equal (f-filename file) "Gemfile"))))
 
-(defun rspec-compile-command ()
-  (if (rspec-gemfile-exists-p)
-	  (concat "bundle exec " rspec-compile-command)
-	rspec-compile-command))
-
 (defun rspec-goto-current-test ()
   (search-backward-regexp "x?it +[\"'].*[\"']"))
 
@@ -63,14 +58,22 @@
   (ansi-color-apply-on-region (point-min) (point-max))
   (toggle-read-only))
 
+(defun rspec-run-command (what)
+  (concat (rspec-goto-root-directory)
+		  " && "
+		  (if (rspec-gemfile-exists-p)
+			  (concat "bundle exec " rspec-compile-command)
+			rspec-compile-command)
+		  " " what))
+
 (defun rspec-run (what)
   (when rspec-use-rvm (rvm-use-default))
-  (compile (concat (rspec-goto-root-directory) " && " (rspec-compile-command) " " what))
+  (compile (rspec-run-command what))
   (add-hook 'compilation-finish-functions 'rspec-insert-into-test-buffer))
 
 (defun rspec-run-all-tests ()
   (interactive)
-  (rspec-run  " spec"))
+  (rspec-run  "spec"))
 
 (defun rspec-run-this-test ()
   (interactive)
