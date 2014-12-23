@@ -59,7 +59,7 @@
 
 (When "^I have passing tests$"
   (lambda ()
-	(setq rspec-compile-command "./rspec")
+	(defun rspec-compile-command () "./rspec")
 	(defun rspec-spec-directory () "./spec")
 	(defun rspec-root-directory () ".")
 	(defun f-parent (arg) ".")
