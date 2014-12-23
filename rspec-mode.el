@@ -1,7 +1,7 @@
 (require 'rvm)
 (require 'ansi-color)
 
-(defvar rspec-compile-command "rspec -c -f d")
+(defun rspec-compile-command () "rspec")
 
 (defvar rspec-mode-map (make-sparse-keymap)
   "Rspec mode keymap")
@@ -29,6 +29,14 @@
 
 (defun rspec-gemfile-exists-p ()
   (f-files (rspec-root-directory) (lambda (file) (equal (f-filename file) "Gemfile"))))
+
+(defun rspec-dot-rspec-exists-p ()
+  (f-files (rspec-root-directory) (lambda (file) (equal (f-filename file) ".rspec"))))
+
+(defun rspec-user-compile-opts ()
+  (if (rspec-dot-rspec-exists-p)
+	  (concat (rspec-compile-command) " " (s-chomp (f-read (car (rspec-dot-rspec-exists-p)))))
+	(rspec-compile-command)))
 
 (defun rspec-goto-current-test ()
   (search-backward-regexp "x?it +[\"'].*[\"']"))
@@ -63,7 +71,7 @@
   )
 
 (defun rspec-goto-root-directory ()
-  (concat "cd" " " (rspec-root-directory)))
+  (concat "cd" " " (rspec-root-directory) " && "))
 
 (defun rspec-colorize-test-buffer ()
   (toggle-read-only)
@@ -72,10 +80,9 @@
 
 (defun rspec-run-command (what &optional run-tag)
   (concat (rspec-goto-root-directory)
-		  " && "
-		  (if (rspec-gemfile-exists-p)
-			  (concat "bundle exec " rspec-compile-command)
-			rspec-compile-command)
+		  (when (rspec-gemfile-exists-p)
+			"bundle exec ")
+		  (rspec-user-compile-opts)
 		  " " what
 		  (when (and run-tag (rspec-current-tag))
 			(concat " --tag " (s-join ":" (rest (rspec-current-tag)))))
