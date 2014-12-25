@@ -24,8 +24,21 @@
 (defun rspec-spec-directory ()
   (rspec--spec-directory buffer-file-name))
 
+(defun rspec--lib-directory-p (dir)
+  (string= (f-filename dir) "lib"))
+
+(defun rspec--lib-directory (dir)
+  (cond
+   ((equal dir nil) nil)
+   ((rspec--lib-directory-p dir) dir)
+   (t (rspec--lib-directory (f-parent dir)))
+   ))
+
+(defun rspec-lib-directory ()
+  (rspec--lib-directory buffer-file-name))
+
 (defun rspec-root-directory ()
-  (f-parent (rspec-spec-directory)))
+  (f-parent (or (rspec-spec-directory) (rspec-lib-directory))))
 
 (defun rspec-gemfile-exists-p ()
   (f-files (rspec-root-directory) (lambda (file) (equal (f-filename file) "Gemfile"))))
