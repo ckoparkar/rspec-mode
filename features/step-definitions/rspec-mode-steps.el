@@ -90,3 +90,20 @@
 						(rspec-run-command "spec")))
 			  (message "Expected '%s' to be part of '%s', but was not."))
 		  (cl-assert (not (s-contains? expected actual)) nil message expected actual))))
+
+(And "^I \"\\([^\"]+\\)\" in a spec file$"
+  (lambda (arg)
+	(cond
+	 ((s-contains? "not" arg) (defun rspec-spec-file-p (file) nil))
+	 (t (defun rspec-spec-file-p (file) t))
+	 )
+    ))
+
+(And "^I \"\\([^\"]+\\)\" a spec file$"
+  (lambda (arg)
+	(cond
+	 ((s-contains? "dont" arg) (defun rspec-spec-file-exists-p (file) nil))
+	 (t (defun rspec-spec-file-exists-p (file) t)
+		(defun rspec-spec-file-exists-p (file &optional true) "spec"))
+	 )
+    ))

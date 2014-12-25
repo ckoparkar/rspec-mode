@@ -46,6 +46,19 @@
 (defun rspec-dot-rspec-exists-p ()
   (f-files (rspec-root-directory) (lambda (file) (equal (f-filename file) ".rspec"))))
 
+(defun rspec-spec-file-p (file)
+  (s-contains? "spec" (-last-item (s-split "_" (-last-item (s-split "/" file))))))
+
+(defun rspec-spec-file-exists-p (file &optional spec-path-p)
+  (let
+	  ((spec-dir (concat (rspec-root-directory) "/spec"))
+	   (spec-sub-dir (concat (s-join "/"(butlast (s-split "/"(s-chop-prefix (rspec-lib-directory) file)))) "/"))
+	   (spec-file-name (s-replace ".rb" "_spec.rb"(-last-item (s-split "/" buffer-file-name)))))
+	(if spec-path-p
+		(concat spec-dir spec-sub-dir spec-file-name)
+	  (f-exists? (concat spec-dir spec-sub-dir spec-file-name)))
+	))
+
 (defun rspec-user-compile-opts ()
   (if (rspec-dot-rspec-exists-p)
 	  (concat (rspec-compile-command) " " (s-chomp (f-read (car (rspec-dot-rspec-exists-p)))))
@@ -112,7 +125,11 @@
 
 (defun rspec-run-this-test ()
   (interactive)
-  (rspec-run  buffer-file-name))
+  (cond
+   ((rspec-spec-file-p buffer-file-name) (rspec-run buffer-file-name))
+   ((rspec-spec-file-exists-p buffer-file-name) (rspec-run (rspec-spec-file-exists-p buffer-file-name t)))
+   (t (message "In TDD we trust. No specs exist for this file."))
+   ))
 
 (defun rspec-run-all-from-folder ()
   (interactive)
