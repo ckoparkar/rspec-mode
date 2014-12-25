@@ -5,7 +5,7 @@ rspec-mode is a minor mode for emacs to speed up development when writing tests 
 
 All keybindings in cucumber-mode  start with `C-c C-r` followed by an actual shortcut.
 
-* `td`: toggle-deferred will toggle 'xit/it' in theg current test in order to defer it.
+* `td`: toggle-deferred will toggle 'xit/it' in the current test in order to defer it.
 * `ra`: run all tests
 * `rt`: run this test (run spec for current file)
 * `rf`: run this folder (run all tests from current folder)
