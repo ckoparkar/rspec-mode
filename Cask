@@ -5,3 +5,6 @@
 (depends-on "ecukes")
 (depends-on "espuds")
 (depends-on "rvm")
+(depends-on "s")
+(depends-on "f")
+(depends-on "dash")
