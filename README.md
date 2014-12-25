@@ -7,7 +7,7 @@ All keybindings in cucumber-mode  start with `C-c C-r` followed by an actual sho
 
 * `td`: toggle-deferred will toggle 'xit/it' in theg current test in order to defer it.
 * `ra`: run all tests
-* `rt`: run this test (run the current open spec file)
+* `rt`: run this test (run spec for current file)
 * `rf`: run this folder (run all tests from current folder)
 * `rg`: run this test with tag
 * `fg`: run folder with tag
