@@ -1,4 +1,6 @@
 (source melpa)
+(source marmalade)
+(source gnu)
 
 (package "rspec-mode" "0.0.1" "Rspec mode.")
 
