@@ -172,10 +172,10 @@
 
 (defun rspec-run (what &optional run-tag)
   "Generic command that compiles rspec-run command"
-  (when rspec-use-rvm (rvm-use-default))
-  (compile (rspec-run-command what run-tag))
-  (add-hook 'compilation-finish-functions 'rspec-insert-into-test-buffer))
-
+  (let ((shell-file-name "/bin/bash"))
+   (when rspec-use-rvm (rvm-use-default))
+   (compile (rspec-run-command what run-tag))
+   (add-hook 'compilation-finish-functions 'rspec-insert-into-test-buffer)))
 
 (defun rspec-run-this-test ()
   "Run spec for current file"
